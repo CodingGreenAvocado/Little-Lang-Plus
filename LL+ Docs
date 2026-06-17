@@ -1,8 +1,1 @@
-Welcome to my... special codebase. Full of code a two year old could write better, inconsistent variable names, and worse spelling then a monkey. The thing is, it works. Well? Not really... Works.. Yes. I hope you find as much joy in Little Lang Plus as I do.
-
-How to run:
-Make a file with the .LLp extension. Open it with VS Code. Click on the search bar and type a ">". Then choose "Task: Configure Task", then choose "Create tasks.json file from template". Paste in the tasks.json file all ready made and switch the file path to the filepath of your LL+ file. Now, if you press "ctrl + shift + b" in your .LLp file and choose "Run LLp file", your Little Lang Plus program will run!
-
-Documentation at: None
-
-Have fun!
+Will totally come back to.
