@@ -1,0 +1,21 @@
+function public Main(String Message) {
+    return main_output as String "Hello_World";
+};
+
+function public Add(Int a, Int b){
+    change a + b;
+    return add_output as a;
+};
+
+function public Sub(Int a, Int b){
+    change a - b;
+    return sub_output as Int 5;
+};
+
+run Main("Hello_World");
+set Int i = 4;
+run Add(5, i);
+run Sub(5, 3);
+print(main_output);
+print(sub_output);
+print(add_output);
