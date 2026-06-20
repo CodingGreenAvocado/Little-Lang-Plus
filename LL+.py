@@ -155,9 +155,9 @@ class Parser:
             
     def parse_return(self):
         self.eat("return")
+        type = self.eat()
         name = self.eat()
         self.eat("as")
-        type = self.eat()
         value = self.eat()
         if value == '"':
             value = self.eat()
