@@ -1,1 +1,39 @@
-Will totally come back to.
+Print:
+"print(Value);"
+Value - Variable, Int, String
+
+Variables:
+To use a variable, put @ in front (Unless defining). Like "print(@input);".
+
+Define a variable:
+"set Variable_Type Variable_Name = Variable_Value;"
+Variable_Type - Name
+Variable_Name - Name
+Variable_Value - Int, String, Variable
+
+Change a variable:
+"change @Variable_Name Operation Value;"
+Variable_Name - Variable
+Operation - Mathmathical operation (+, -, *, /)
+Value - Int or Variable
+
+Functions:
+Define a function:
+"function public Name(Arguments) {
+Body
+};"
+Name - Name
+Arguments - EX. (Int a, Str b)
+Body - Any code (But defining a function)
+
+Run a function:
+"run Name(Arguments);"
+Name - Premade Function Name
+Arguments - Int, String, Variable
+
+Returning within a function:
+"return Type Name as Value;"
+Type - Name
+Name - Name
+Value - Int, String, Variable
+
