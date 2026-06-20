@@ -48,28 +48,31 @@ class Parser:
         name = self.eat()
         self.eat("=")
         value = self.eat()
+        value = value 
+        if value == '@':
+            value = vars[self.eat()]["value"]
+        elif value == '"':
+            value = self.eat()
+            self.eat('"')
         self.eat(";")
         vars[name] = {"type": type, "value": value}
 
     def parse_print(self):
             self.eat("print")
             self.eat("(")
-            is_var = self.eat()
-            if is_var == '"':
-                to_print = self.eat()
+            value = self.eat()
+            if value == '"':
+                value = self.eat()
                 self.eat('"')
                 self.eat(")")
                 self.eat(";")
-                print(to_print)
-            else:
-                is_special = self.eat()
-                if is_special == ".":
-                    print(vars[is_var][str(self.eat())])
-                    self.eat(")")
-                    self.eat(";")
-                elif is_special == ")":
-                    print(vars[is_var]["value"])
-                    self.eat(";")
+                print(value)
+            elif value == "@":
+                value = vars[self.eat()]["value"]
+                self.eat(")")
+                self.eat(";")
+                print(value)
+            
     
     def parse_create_function(self):
         self.eat("function")
@@ -100,26 +103,27 @@ class Parser:
         function = functions[self.eat()]
         tokens = function["body"]
         self.eat("(")
-        a = 0
-        string = False
-        while a < len(function["args"]):
-            arg = str(self.eat())
-            if arg == ",":
-                pass
-            elif arg != '"':
-                try:
-                    int(arg)
-                except ValueError:
-                    arg = vars[arg]["value"] if string != True else arg
-                type = function["args"][a]
-                name = function["args"][a+1]
-                add_var = ["set", type, name, "=", arg, ";"]
+
+        args = function["args"]
+
+        i = 0
+        while i < len(args):
+            value = None
+            comma = False
+            arg = self.eat()
+            if arg == '"':
+                value = self.eat()
+                self.eat('"')
+            elif arg == "@":
+                value = vars[self.eat()]["value"]
+            elif arg == ",":
+                comma = True
+            if comma == False:
+                type = function["args"][i]
+                name = function["args"][i+1]
+                add_var = ["set", type, name, "=", value, ";"]
                 tokens = add_var + tokens
-                a += 2
-            else:
-                string = True
-        if string == True:
-            self.eat('"')
+                i += 2
         self.eat(")")
         self.eat(";")
         Interpreter(tokens, Parser(tokens))
@@ -131,13 +135,14 @@ class Parser:
     
     def parse_change_var(self):
         self.eat("change")
+        self.eat("@")
         var = self.eat()
         operation = self.eat()
         value = self.eat()
-        try:
+        if value == "@":
+            value = vars[value]["value"]
+        else:
             value = int(value)
-        except ValueError:
-            value = int(vars[value]["value"])
         self.eat(";")
         var_value = vars[var]["value"]
         if operation == "+":
@@ -159,9 +164,9 @@ class Parser:
             value = self.eat()
             self.eat('"')
             self.eat(";")
-        elif value == ";":
-            value = vars[type]["value"]
-            type = vars[type]["type"]
+        elif value == "@":
+            value = vars[self.eat()]["value"]
+            self.eat(";")
         else:
             self.eat(";")
         vars[name] = {"type": type, "value": value}
