@@ -38,7 +38,7 @@ class Parser:
     def eat(self, expd=None):
         token = self.current()
         if expd != None and token != expd:
-            print(f"Was expecting {expd}, but got {token}")
+            print(f"Was expecting {expd}, but got {token} at {self.pointer}")
         self.pointer += 1
         return token
     
@@ -103,13 +103,9 @@ class Parser:
         function = functions[self.eat()]
         tokens = function["body"]
         self.eat("(")
-
-        args = function["args"]
-
         i = 0
-        while i < len(args):
+        while True:
             value = None
-            comma = False
             arg = self.eat()
             if arg == '"':
                 value = self.eat()
@@ -117,14 +113,17 @@ class Parser:
             elif arg == "@":
                 value = vars[self.eat()]["value"]
             elif arg == ",":
-                comma = True
-            if comma == False:
+                pass
+            elif arg == ")":
+                break
+            else:
+                value = int(arg)
+            if arg != ",":
                 type = function["args"][i]
                 name = function["args"][i+1]
                 add_var = ["set", type, name, "=", value, ";"]
                 tokens = add_var + tokens
                 i += 2
-        self.eat(")")
         self.eat(";")
         Interpreter(tokens, Parser(tokens))
         a = 1
@@ -140,7 +139,7 @@ class Parser:
         operation = self.eat()
         value = self.eat()
         if value == "@":
-            value = vars[value]["value"]
+            value = int(vars[self.eat()]["value"])
         else:
             value = int(value)
         self.eat(";")
