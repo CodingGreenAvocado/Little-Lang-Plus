@@ -7,7 +7,7 @@ function public main() {
 
 function public add(Int a, Int b){
     change @a + @b;
-    return add_output as Int @a;
+    return Int add_output as @a;
 };
 
 run main();
