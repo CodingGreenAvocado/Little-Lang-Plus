@@ -11,3 +11,12 @@ function public add(Int a, Int b){
 };
 
 run main();
+
+set Int a = 1;
+
+if (1 == @a) {
+    print("True");
+};
+else {
+    print("False");
+};
