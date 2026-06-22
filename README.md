@@ -1,3 +1,5 @@
+![Alt Text](images/main_screen.png)
+
 # Little-Lang-Plus
 
 Welcome to my... special codebase. Full of code a two year old could write better, inconsistent variable names, and worse spelling then a monkey. The thing is, it works. Well? Not really... Works.. Yes. I hope you find as much joy in Little Lang Plus as I do.
