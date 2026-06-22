@@ -42,36 +42,30 @@ class Parser:
         self.pointer += 1
         return token
     
+    def value(self):
+        value = self.eat()
+        if value == "@":
+            value = vars[self.eat()]["value"]
+        elif value == '"':
+            value = self.eat()
+            self.eat('"')
+        return value
+    
     def parse_set_var(self):
         self.eat("set")
         type = self.eat()
         name = self.eat()
         self.eat("=")
-        value = self.eat()
-        value = value 
-        if value == '@':
-            value = vars[self.eat()]["value"]
-        elif value == '"':
-            value = self.eat()
-            self.eat('"')
+        value = self.value()
         self.eat(";")
         vars[name] = {"type": type, "value": value}
 
     def parse_print(self):
             self.eat("print")
             self.eat("(")
-            value = self.eat()
-            if value == '"':
-                value = self.eat()
-                self.eat('"')
-                self.eat(")")
-                self.eat(";")
-                print(value)
-            elif value == "@":
-                value = vars[self.eat()]["value"]
-                self.eat(")")
-                self.eat(";")
-                print(value)
+            print(self.value())
+            self.eat(")")
+            self.eat(";")
             
     
     def parse_create_function(self):
@@ -137,38 +131,69 @@ class Parser:
         self.eat("@")
         var = self.eat()
         operation = self.eat()
-        value = self.eat()
-        if value == "@":
-            value = int(vars[self.eat()]["value"])
-        else:
-            value = int(value)
+        value = int(self.value())
         self.eat(";")
-        var_value = vars[var]["value"]
+        var_value = int(vars[var]["value"])
         if operation == "+":
-            vars[var]["value"] = int(var_value) + value
+            vars[var]["value"] = var_value + value
         elif operation == "-":
-            vars[var]["value"] = int(var_value) - value
+            vars[var]["value"] = var_value - value
         elif operation == "/":
-            vars[var]["value"] = int(var_value) / value
+            vars[var]["value"] = var_value / value
         elif operation == "*":
-            vars[var]["value"] = int(var_value) * value
+            vars[var]["value"] = var_value * value
             
     def parse_return(self):
         self.eat("return")
         type = self.eat()
         name = self.eat()
         self.eat("as")
-        value = self.eat()
-        if value == '"':
-            value = self.eat()
-            self.eat('"')
-            self.eat(";")
-        elif value == "@":
-            value = vars[self.eat()]["value"]
-            self.eat(";")
-        else:
-            self.eat(";")
+        value = self.value()
+        self.eat(";")
         vars[name] = {"type": type, "value": value}
+
+    def parse_if(self):
+        self.eat()
+        self.eat("(")
+        value = self.value()
+        operation = self.eat()
+        second = self.value()
+        self.eat(")")
+        self.eat("{")
+        tokens = []
+        while True:
+            to_add = self.eat()
+            if to_add == "}":
+                self.eat(";")
+                break
+            tokens.append(to_add)
+        final = value + operation + second
+        is_true = False
+        if eval(final):
+            Interpreter(tokens, Parser(tokens))
+            is_true = True
+        try:
+            is_else = self.eat()
+            self.pointer -= 1
+        except IndexError:
+            is_else = None
+            pass
+        if is_else == "else":
+            self.parse_else(is_true)
+
+
+    def parse_else(self, is_true):
+        self.eat("else")
+        self.eat("{")
+        tokens = []
+        while True:
+            to_add = self.eat()
+            if to_add == "}":
+                self.eat(";")
+                break
+            tokens.append(to_add)
+        if is_true == False:
+            Interpreter(tokens, Parser(tokens))
 
 # "Interpreter"... Not really... Same with the "Parser"... Not like normal but works ;)
 class Interpreter:
@@ -187,6 +212,8 @@ class Interpreter:
                 parser.parse_change_var()
             elif current == "return":
                 parser.parse_return()
+            elif current == "if":
+                parser.parse_if()
 
 # Main
 
