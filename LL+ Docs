@@ -3,7 +3,7 @@ Print:
 Value - Variable, Int, String
 
 Variables:
-To use a variable, put @ in front (Unless defining). Like "print(@input);".
+# To use a variable, put @ in front (Unless defining). Like "print(@input);".
 
 Define a variable:
 "set Variable_Type Variable_Name = Variable_Value;"
@@ -17,14 +17,27 @@ Variable_Name - Variable
 Operation - Mathmathical operation (+, -, *, /)
 Value - Int or Variable
 
-Functions:
+If/Else:
+Define an if:
+"if (Value1 Operation Value2) {
+	Body
+};"
+Value1 - Int, String, Variable
+Operation - ==, !=, <=, >=, <, >
+Value2 - Int, String, Variable
+Body - Any code
+# Else is the same yet without the ()
+ 
+
+
+Functions: # YOU CURRENTLY CANNOT HAVE AN IF/ELSE IN A FUNCTION
 Define a function:
 "function public Name(Arguments) {
-Body
+	Body
 };"
 Name - Name
 Arguments - EX. (Int a, Str b)
-Body - Any code (But defining a function)
+Body - Any code (But defining a function or if/else)
 
 Run a function:
 "run Name(Arguments);"
@@ -36,4 +49,3 @@ Returning within a function:
 Type - Name
 Name - Name
 Value - Int, String, Variable
-
