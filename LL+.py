@@ -47,8 +47,13 @@ class Parser:
         if value == "@":
             value = vars[self.eat()]["value"]
         elif value == '"':
-            value = self.eat()
-            self.eat('"')
+            value = ""
+            while True:
+                to_add = self.eat()
+                if to_add == '"':
+                    break
+                value = value + to_add
+                value = value + " "
         return value
     
     def parse_set_var(self):
