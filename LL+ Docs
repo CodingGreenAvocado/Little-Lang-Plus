@@ -25,19 +25,19 @@ Define an if:
 Value1 - Int, String, Variable
 Operation - ==, !=, <=, >=, <, >
 Value2 - Int, String, Variable
-Body - Any code
+Body - Any code (but defining a function)
 # Else is the same yet without the ()
  
 
 
-Functions: # YOU CURRENTLY CANNOT HAVE AN IF/ELSE IN A FUNCTION
+Functions:
 Define a function:
 "function public Name(Arguments) {
 	Body
 };"
 Name - Name
 Arguments - EX. (Int a, Str b)
-Body - Any code (But defining a function or if/else)
+Body - Any code (But defining a function)
 
 Run a function:
 "run Name(Arguments);"
